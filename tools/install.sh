@@ -8,7 +8,7 @@
 #   sh -c "$(fetch -o - https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 #
 # As an alternative, you can first download the install script and run it afterwards:
-#   wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+#   wget https://raw.githubusercontent.com/evolze/ohmyzsh/master/tools/install.sh
 #   sh install.sh
 #
 # You can tweak the install behavior by setting variables when running the script. For
@@ -33,7 +33,7 @@
 # For example:
 #   sh install.sh --unattended
 # or:
-#   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+#   sh -c "$(curl -fsSL https://raw.githubusercontent.com/evolze/ohmyzsh/master/tools/install.sh)" "" --unattended
 #
 set -e
 
@@ -55,7 +55,7 @@ custom_zsh=${ZSH:+yes}
 
 # Default settings
 ZSH="${ZSH:-$HOME/.config/.zsh/.oh-my-zsh}"
-REPO=${REPO:-ohmyzsh/ohmyzsh}
+REPO=${REPO:-evolze/ohmyzsh}
 REMOTE=${REMOTE:-https://github.com/${REPO}.git}
 BRANCH=${BRANCH:-master}
 
@@ -305,11 +305,11 @@ setup_zshrc() {
   echo "${FMT_BLUE}Looking for an existing zsh config...${FMT_RESET}"
 
   # Must use this exact name so uninstall.sh can find it
-  OLD_ZSHRC=~/.zshrc.pre-oh-my-zsh
+  OLD_ZSHRC=~/.config/.zsh/.zshrc.pre-oh-my-zsh
   if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
     # Skip this if the user doesn't want to replace an existing .zshrc
     if [ "$KEEP_ZSHRC" = yes ]; then
-      echo "${FMT_YELLOW}Found ~/.zshrc.${FMT_RESET} ${FMT_GREEN}Keeping...${FMT_RESET}"
+      echo "${FMT_YELLOW}Found ~/.config/.zsh/.zshrc.${FMT_RESET} ${FMT_GREEN}Keeping...${FMT_RESET}"
       return
     fi
     if [ -e "$OLD_ZSHRC" ]; then
@@ -321,19 +321,19 @@ setup_zshrc() {
       fi
       mv "$OLD_ZSHRC" "${OLD_OLD_ZSHRC}"
 
-      echo "${FMT_YELLOW}Found old ~/.zshrc.pre-oh-my-zsh." \
+      echo "${FMT_YELLOW}Found old ~/.config/.zsh/.zshrc.pre-oh-my-zsh." \
         "${FMT_GREEN}Backing up to ${OLD_OLD_ZSHRC}${FMT_RESET}"
     fi
-    echo "${FMT_YELLOW}Found ~/.zshrc.${FMT_RESET} ${FMT_GREEN}Backing up to ${OLD_ZSHRC}${FMT_RESET}"
+    echo "${FMT_YELLOW}Found ~/.config/.zsh/.zshrc.${FMT_RESET} ${FMT_GREEN}Backing up to ${OLD_ZSHRC}${FMT_RESET}"
     mv ~/.zshrc "$OLD_ZSHRC"
   fi
 
-  echo "${FMT_GREEN}Using the Oh My Zsh template file and adding it to ~/.zshrc.${FMT_RESET}"
+  echo "${FMT_GREEN}Using the Oh My Zsh template file and adding it to ~/.config/.zsh/.zshrc.${FMT_RESET}"
 
   # Replace $HOME path with '$HOME' in $ZSH variable in .zshrc file
   omz=$(echo "$ZSH" | sed "s|^$HOME/|\$HOME/|")
-  sed "s|^export ZSH=.*$|export ZSH=\"${omz}\"|" "$ZSH/templates/zshrc.zsh-template" > ~/.zshrc-omztemp
-  mv -f ~/.zshrc-omztemp ~/.zshrc
+  sed "s|^export ZSH=.*$|export ZSH=\"${omz}\"|" "$ZSH/templates/zshrc.zsh-template" > ~/.config/.zsh/.zshrc-omztemp
+  mv -f ~/.config/.zsh/.zshrc-omztemp ~/.config/.zsh/.zshrc
 
   echo
 }
@@ -401,9 +401,9 @@ EOF
 
   # We're going to change the default shell, so back up the current one
   if [ -n "$SHELL" ]; then
-    echo "$SHELL" > ~/.shell.pre-oh-my-zsh
+    echo "$SHELL" > ~/.config/.zsh/.shell.pre-oh-my-zsh
   else
-    grep "^$USER:" /etc/passwd | awk -F: '{print $7}' > ~/.shell.pre-oh-my-zsh
+    grep "^$USER:" /etc/passwd | awk -F: '{print $7}' > ~/.config/.zsh/.shell.pre-oh-my-zsh
   fi
 
   echo "Changing your shell to $zsh..."
@@ -445,7 +445,7 @@ print_success() {
   printf '\n'
   printf '\n'
   printf "%s %s %s\n" "Before you scream ${FMT_BOLD}${FMT_YELLOW}Oh My Zsh!${FMT_RESET} look over the" \
-    "$(fmt_code "$(fmt_link ".zshrc" "file://$HOME/.zshrc" --text)")" \
+    "$(fmt_code "$(fmt_link ".zshrc" "file://$HOME/.config/.zsh/.zshrc" --text)")" \
     "file to select plugins, themes, and options."
   printf '\n'
   printf '%s\n' "• Follow us on Twitter: $(fmt_link @ohmyzsh https://twitter.com/ohmyzsh)"
