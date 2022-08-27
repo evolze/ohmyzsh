@@ -5,13 +5,13 @@ if [ "$confirmation" != y ] && [ "$confirmation" != Y ]; then
 fi
 
 echo "Removing ~/.oh-my-zsh"
-if [ -d ~/.oh-my-zsh ]; then
-  rm -rf ~/.oh-my-zsh
+if [ -d ~/.config/.zsh/.oh-my-zsh ]; then
+  rm -rf ~/.config/.zsh/.oh-my-zsh
 fi
 
-if [ -e ~/.zshrc ]; then
+if [ -e ~/.config/.zsh/.zshrc ]; then
   ZSHRC_SAVE=~/.config/.zsh/.zshrc.omz-uninstalled-$(date +%Y-%m-%d_%H-%M-%S)
-  echo "Found ~/.zshrc -- Renaming to ${ZSHRC_SAVE}"
+  echo "Found ~/.config/.zsh/.zshrc -- Renaming to ${ZSHRC_SAVE}"
   mv ~/.config/.zsh/.zshrc "${ZSHRC_SAVE}"
 fi
 
